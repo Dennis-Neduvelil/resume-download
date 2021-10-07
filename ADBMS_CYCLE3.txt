@@ -1,0 +1,141 @@
+CYCLE -3
+
+1.
+
+Install the MongoDB Compass GUI and configure it.
+
+2.
+
+Create a collection student consists of details like rollno, name, phoneno, marks,
+address, year of course etc
+NoSQL code:
+> show dbs
+admin
+0.000GB
+config
+0.000GB
+local
+0.000GB
+mymongodb 0.000GB
+> use StudentB6
+switched to db StudentB6
+> db.createCollection("student")
+\{ "ok" : 1 }
+
+3.
+
+Insert the details of the multiple students (atleast 5) in the form of documents in the
+student collection.
+NoSQL CODE:
+
+>
+db.student.insertMany([{roll_id:101,name:"Appu",phoneno:9496867367,mark:45
+,address:"moozhikkal",year:2012},{roll_id:102,name:"Ammu",phoneno:94968673
+67,mark:45,address:"mol",year:2012},{roll_id:103,name:"Anu",phoneno:949686
+7367,mark:48,address:"mh",year:2020},{roll_id:104,name:"midhu",phoneno:949
+6867367,mark:51,address:"mr",year:2020}])
+{
+"acknowledged" : true,
+"insertedIds" : [
+ObjectId("61543b48b516465b01d989eb"),
+ObjectId("61543b48b516465b01d989ec"),
+ObjectId("61543b48b516465b01d989ed"),
+ObjectId("61543b48b516465b01d989ee")
+]
+}
+
+4.
+
+Retrieve the fields rollno, name, phoneno, marks, city for all the documents in the
+collection student.
+
+NoSQL CODE:
+>
+db.student.find({name:{$eq:"Ammu"}},{_id:0,roll_no:1,name:1,address:1,phon
+e:1,mark:1})
+{ "name" : "Ammu", "mark" : 45, "address" : "mol" }
+
+5.
+
+Display the details of students who achieved a score more than 90 and are from
+‘Thrissur’.
+NoSQL CODE:
+
+> db.student.find({$and:[{mark:{$gt:90}},{address:" Thrissur "}]})
+OUTPUT:
+{ "_id" : ObjectId("61543b48b516465b01d989ee"), "roll_id" : 104, "name" :
+"midhu", "phoneno" : 9496867367, "mark" : 95, "address" : " Thrissur ",
+"year" : 2020 }
+
+6.
+
+Update the phone number of Sujith in the student collection. Retrieve the updated
+information.
+NoSQL CODE:
+
+> db.student.updateOne({name:"Sujith"},{$set:{phoneno:96325874}})
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+
+7.
+
+Update the year of course in all the documents in the student collection to 2021. Also
+retrieve the updated information.
+NoSQL CODE:
+
+> db.student.updateMany({year:2020},{$set:{year:2021}})
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+> db.student.find()
+
+{ "_id" : ObjectId("61543b48b516465b01d989eb"), "roll_id" : 101, "name" :
+"Abhilash", "phoneno" : 9496867367, "mark" : 45, "address" : "moozhikkal",
+"year" : 2012 }
+{ "_id" : ObjectId("61543b48b516465b01d989ec"), "roll_id" : 102, "name" :
+"Ammu", "phoneno" : 9496867367, "mark" : 45, "address" : "mol", "year" :
+2012 }
+{ "_id" : ObjectId("61543b48b516465b01d989ed"), "roll_id" : 103, "name" :
+"Anu", "phoneno" : 9496867367, "mark" : 48, "address" : "mh", "year" :
+2021 }
+{ "_id" : ObjectId("61543b48b516465b01d989ee"), "roll_id" : 104, "name" :
+"Sujith", "phoneno" : 96325874, "mark" : 95, "address" : "Thrisur", "year"
+: 2021 }
+
+8.
+
+Delete the details of the student whose name is ‘Abhilash’ from the student collection
+NoSQL CODE:
+
+> db.student.deleteOne({name:"Abhilash"})
+{ "acknowledged" : true, "deletedCount" : 1 }
+> db.student.find()
+{ "_id" : ObjectId("61543b48b516465b01d989eb"), "roll_id" : 101, "name" :
+"Appu", "phoneno" : 9496867367, "mark" : 45, "address" : "moozhikkal",
+"year" : 2012 }
+{ "_id" : ObjectId("61543b48b516465b01d989ec"), "roll_id" : 102, "name" :
+"Ammu", "phoneno" : 9496867367, "mark" : 45, "address" : "mol", "year" :
+2012 }
+{ "_id" : ObjectId("61543b48b516465b01d989ed"), "roll_id" : 103, "name" :
+"Anu", "phoneno" : 9496867367, "mark" : 48, "address" : "mh", "year" :
+2021 }
+
+9.
+
+Retrieve the number of students per department from the student collection.
+NoSQL CODE:
+> db.student.find().count()
+3
+
+10. Arrange the name of the students in ascending order along with all the columns.
+NoSQL CODE:
+> db.student.find().sort({roll_id:-1})
+{ "_id" : ObjectId("61543b48b516465b01d989ed"), "roll_id" : 103, "name" :
+"Anu", "phoneno" : 9496867367, "mark" : 48, "address" : "mh", "year" :
+2021 }
+
+{ "_id" : ObjectId("61543b48b516465b01d989ec"), "roll_id" : 102, "name" :
+"Ammu", "phoneno" : 9496867367, "mark" : 45, "address" : "mol", "year" :
+2012 }
+{ "_id" : ObjectId("61543b48b516465b01d989eb"), "roll_id" : 101, "name" :
+"Appu", "phoneno" : 9496867367, "mark" : 45, "address" : "moozhikkal",
+"year" : 2012 }
+
+
